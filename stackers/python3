@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+#       PROJECT: stackfor
+#      FILENAME: python3
+#         BUILD: 170907
+#   DESCRIPTION: Builds a basic Python3 stack.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/stackfor
+
+source "$stackforBin/stackfor"
+
+CheckRequirements python3 \
+                  python-pip
