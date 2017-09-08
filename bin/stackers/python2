@@ -1,18 +1,14 @@
 #!/bin/bash
-set -e
 
 #       PROJECT: stackfor
-#      FILENAME: xfce4
+#      FILENAME: python2
 #         BUILD: 170907
-#   DESCRIPTION: Adds a GUI (XFCE4) to your environment
+#   DESCRIPTION: Builds a basic Python2 stack.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
 #       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
 #     MORE INFO: http://aprettycoolprogram.com/stackfor
 
-source "$stackforBin/stackfor"
+source "$stackforBin/stackforengine"
 
-InstallPackage xorg
-InstallPackageMinimal xfce4
-InstallPackage tango-icon-theme \
-               xfce4-terminal
+InstallPackageMinimal python

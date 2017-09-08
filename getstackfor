@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#       PROJECT: stackfor
+#      FILENAME: getstackfor
+#       VERSION: 00.03.00
+#         BUILD: 170908
+#   DESCRIPTION: Gets the latest version of stackfor.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/stackfor
+
+## Create .stackfor/temp if it doesn't exist, then download and extract the current version of stackfor. Passing
+## the "--development" argument will download and extract the development branch.
+if [[ ! -d $HOME/.stackfor ]]; then
+    mkdir -p $HOME/.stackfor/temp
+fi
+wget -P $HOME/.stackfor/temp http://aprettycoolprogram.com/stackfor/stackfor$1.tar.gz
+tar -xzvf $HOME/.stackfor/temp/stackfor$1.tar.gz -C $HOME/.stackfor
+
+# Elevate all of the scripts, and cleanup
+chmod -R +x $HOME/.stackfor/bin/*
+mv getstackfor $HOME/.stackfor/bin
+rm -rf $HOME/.stackfor/temp/*
+
+# Add .scriptfor/bin/* to the $PATH
+if [[ ! -f $HOME/.profile ]]; then
+    touch $HOME/.profile
+fi
+grep '.stackfor/bin' $HOME/.profile
+if [[ $? == 1 ]]; then
+    echo "PATH=$PATH:$HOME/.stackfor/bin" >> .profile
+    sudo reboot
+fi

@@ -1,0 +1,83 @@
+#!/bin/bash
+
+#       PROJECT: stackfor
+#      FILENAME: stackforengine
+#       VERSION: 00.03.00
+#         BUILD: 170908
+#   DESCRIPTION: Common code for stackfor.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/stackfor
+
+AptGet() {
+    if [[ $@ =~ "update" ]]; then
+        sudo apt-get update
+    fi | tee -a $stackforLogs/apt_get_update.log
+
+    if [[ $@ =~ "upgrade" ]]; then
+        sudo apt-get update
+        sudo apt-get upgrade
+        sudo apt-get dist-upgrade
+    fi | tee -a $stackforLogs/apt_get_upgrade.log
+
+    if [[  $@ =~ "clean" ]]; then
+        sudo apt-get autoremove
+        sudo apt-get -y autoclean
+        sudo apt-get -y clean
+    fi | tee -a $stackforLogs/apt_get_clean.log
+}
+
+CompletionReport() {
+    clear
+    printf "\n\n  ISSUE REPORT\n\n  ============\n\n  If a package is listed here, check the log file.\n\n"
+    for item in ${installedPackages[@]}; do
+        packageExists=$(dpkg-query -W --showformat='${Status}\n' $package | grep "install ok installed")
+        if [[ "$packageExists" != "install ok installed" ]]; then
+            echo "$package no installed."
+        else
+            echo "Package $package already installed."
+        fi
+    done
+}
+
+InitializeStackfor() {
+    export stackforHome=$HOME/.stackfor
+    export stackforBin=$HOME/.stackfor/bin
+    export stackforStackers=$HOME/.stackfor/bin/stackers
+    export stackforTemp=$HOME/.stackfor/temp
+    export stackforLogs=$HOME/.stackfor/logs/$(date "+%Y%m%d")
+    export stackforHistory=$HOME/.stackfor/history
+
+    if [[ ! -d $stackforLogs ]]; then
+        mkdir -p $stackforLogs
+    fi
+}
+
+InstallPackage() {
+    AptGet update
+    for package in "$@"; do
+        packageExists=$(dpkg-query -W --showformat='${Status}\n' $package | grep "install ok installed")
+        if [[ "$packageExists" != "install ok installed" ]]; then
+            sudo apt-get install -y $package --no-install-recommends | tee -a $stackforLogs/$package-install.log
+            touch $stackforHistory/$package.install
+        else
+            echo "Package $package already installed."
+        fi
+    done
+    AptGet upgrade clean
+}
+
+InstallPackageMinimal() {
+    AptGet update
+    for package in "$@"; do
+        packageExists=$(dpkg-query -W --showformat='${Status}\n' $package | grep "install ok installed")
+        if [[ "$packageExists" != "install ok installed" ]]; then
+            sudo apt-get install -y $package --no-install-recommends | tee -a $stackforLogs/$package-install.log
+            touch $stackforHistory/$package.install
+        else
+            echo "Package $package not installed!"
+        fi
+    done
+    AptGet upgrade clean
+}

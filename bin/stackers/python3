@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 #       PROJECT: stackfor
 #      FILENAME: python3
@@ -10,17 +9,6 @@ set -e
 #       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
 #     MORE INFO: http://aprettycoolprogram.com/stackfor
 
-source "$stackforBin/stackfor"
+source "$stackforBin/stackforengine"
 
-InstallPrereqs() {
-    prereqs="none"
-}
-
-InstallPython3() {
-    InstallPackage python3 \
-                   python-pip
-}
-
-## MAIN
-InstallPrereqs
-InstallPython3
+InstallPackageMinimal python3 python-pip

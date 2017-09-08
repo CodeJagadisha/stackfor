@@ -1,14 +1,43 @@
-     _             _     __ 
-    | |           | |   / _|
+     _             _     __           
+    | |           | |   / _|          
  ___| |_ __ _  ___| | _| |_ ___  _ __ 
 / __| __/ _` |/ __| |/ /  _/ _ \| '__|
-\__ \ || (_| | (__|   <| || (_) | |
-|___/\__\__,_|\___|_|\_\_| \___/|_|
-
-======================================== 
-                ROADMAP
-========================================
+\__ \ || (_| | (__|   <| || (_) | |   
+|___/\__\__,_|\___|_|\_\_| \___/|_|   
+                                      
+======================================
+               ROADMAP                
+======================================
 
 
 * "stackfor --cleanup"
     Loops through the history files and makes sure that each *.install file is actually installed.
+* set -e
+    Incorporation error detection
+* Color
+    Add colors!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# CheckRequirements localepurge \
+#                   software-properties-common \
+#                   ca-certificates \
+#                   gnupg2 \
+#                   curl \
+#                   apt-transport-https \
+#                   build-essential \
+#                   linux-headers-$(uname -r)

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#       PROJECT: stackfor
+#      FILENAME: stackfor
+#       VERSION: 00.03.00
+#         BUILD: 170908
+#   DESCRIPTION: Entry point for stackfor.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/stackfor
+
+## Common functions are in stackforengine.
+source "$HOME/.stackfor/bin/stackforengine"
+
+## Setup variables and directories
+InitializeStackfor
+
+stackforArguments="$@"
+declare -a stackforStackernames
+#declare -a installedPackages ## -- need to recode this
+
+for filename in "$stackforStackers"/*; do
+    stackforStackernames+=$(basename "$filename")
+done
+
+InstallPackage localepurge
+
+if [[ "$stackforStackernames" =~ "$1" ]]; then
+    eval $stackforStackers/$1 ${@:2}
+else
+    echo "[stackfor] ERROR --> Invalid command $1"
+fi
+
+CompletionReport
