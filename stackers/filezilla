@@ -2,9 +2,9 @@
 set -e
 
 #       PROJECT: stackfor
-#      FILENAME: python3
+#      FILENAME: filezilla
 #         BUILD: 170907
-#   DESCRIPTION: Builds a basic Python3 stack.
+#   DESCRIPTION: Installs FileZilla.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
 #       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
@@ -16,11 +16,10 @@ InstallPrereqs() {
     prereqs="none"
 }
 
-InstallPython3() {
-    InstallPackage python3 \
-                   python-pip
+InstallFileZilla() {
+    InstallPackageMinimal filezilla
 }
 
 ## MAIN
 InstallPrereqs
-InstallPython3
+InstallFileZilla

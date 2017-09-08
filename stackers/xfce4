@@ -2,9 +2,9 @@
 set -e
 
 #       PROJECT: stackfor
-#      FILENAME: python3
+#      FILENAME: xfce4
 #         BUILD: 170907
-#   DESCRIPTION: Builds a basic Python3 stack.
+#   DESCRIPTION: Adds a GUI (XFCE4) to your environment
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
 #       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
@@ -12,15 +12,7 @@ set -e
 
 source "$stackforBin/stackfor"
 
-InstallPrereqs() {
-    prereqs="none"
-}
-
-InstallPython3() {
-    InstallPackage python3 \
-                   python-pip
-}
-
-## MAIN
-InstallPrereqs
-InstallPython3
+InstallPackage xorg
+InstallPackageMinimal xfce4
+InstallPackage tango-icon-theme \
+               xfce4-terminal

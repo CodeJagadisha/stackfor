@@ -3,7 +3,7 @@ set -e
 
 #       PROJECT: stackfor
 #      FILENAME: stackfor
-#       VERSION: 00.01.00
+#       VERSION: 00.02.00
 #         BUILD: 170907
 #   DESCRIPTION: Automatically builds stacks for software development in Debian-based distributions.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
@@ -11,11 +11,26 @@ set -e
 #       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
 #     MORE INFO: http://aprettycoolprogram.com/stackfor
 
-##### FUNCTIONS
+AptGet() {
+    if [[ $@ =~ "update" ] || [ $@ =~ "upgrade" ]]; then
+        sudo apt-get update
+    fi | tee -a $stackforLogs/apt_get_update.log
 
-## Checks to see if the list of passed packages are installed. If they don't, install them. This fucntion is used
-## in subscripts.
-CheckRequirements() {
+    if [[ $@ =~ "upgrade" ]]; then
+        sudo apt-get upgrade
+        sudo apt-get dist-upgrade
+    fi | tee -a $stackforLogs/apt_get_upgrade.log
+
+    if [[  $@ =~ "clean" ]]; then
+        sudo apt-get autoremove
+        sudo apt-get -y autoclean
+        sudo apt-get -y clean
+    fi | tee -a $stackforLogs/apt_get_clean.log
+}
+
+## Verify passed packages are installed, install them if not. Used in stacker scripts.
+InstallPackage() {
+    AptGet update
     for package in "$@"; do
         packageExists=$(dpkg-query -W --showformat='${Status}\n' $package | grep "install ok installed")
         if [[ "$packageExists" != "install ok installed" ]]; then
@@ -25,55 +40,54 @@ CheckRequirements() {
             echo "Package $package not installed!"
         fi
     done
+    AptGet upgrade clean
+}
+
+## Verify passed packages are installed, install them if not. Used in stacker scripts.
+InstallPackageMinimal() {
+    AptGet update
+    for package in "$@"; do
+        packageExists=$(dpkg-query -W --showformat='${Status}\n' $package | grep "install ok installed")
+        if [[ "$packageExists" != "install ok installed" ]]; then
+            sudo apt-get install $package --no-install-recommends | tee -a $stackforLogs/$package_install.log
+            touch $stackforHistory/$package.install
+        else
+            echo "Package $package not installed!"
+        fi
+    done
+    AptGet upgrade clean
 }
 
 ##### MAIN
 
-## Since we will be messing around with arrays, the first thing we should do is take all of the arguments that were
-## passed to stackfor and put them in a safe space. This is that space.
+## Put arguments in a safe space.
 stackforArguments="$@"
 
-## Also setup placeholder arrays for the names of all the stackers and the list of packages that will be installed.
-## Whenever a package is installed via apt-get, it's added to the installedPackages list. When the report is displayed
-## at the end of this script, this is the list that the report uses.
+## Setup placeholder arrays for the stackers and installed packages.
 declare -a stackforStackernames
 declare -a installedPackages
 
-## Get the names of the subscripts in .stackfor/bin/stackers, and put them in the placeholder array.
+## Stacker scripts names.
 for filename in "$stackforStackers"; do
     stackforStackernames+=$(basename $1)
 done
 
-## Stackfor requires a few directories to be exported so they can be used in this script, and subscripts. Since we'll
-## be using these directories throughout the script, we'll setup some nice looking variable names...
+## Important directories.
 export stackforHome=$HOME/.stackfor
 export stackforBin=$HOME/.stackfor/bin
 export stackforStackers=$HOME/.stackfor/bin/stackers
 export stackforTemp=$HOME/.stackfor/temp
 export stackforLogs=$HOME/.stackfor/logs/$(date "+%Y%m%d")
 export stackforHistory=$HOME/.stackfor/history
-
-## If .stackfor/ doesn't exist, create it and some other required directories.
 -d $stackforHome && mkdir -p $stackforHome/{$stackforBin,$stackforStackers,$stackforTemp,$stackforLogs,$stackforHistory}
 
-## In order for stackfor to work correctly, .stackfor/bin needs to be in the $PATH. First, make sure that the .profile
-## file exists, then check to see if it's $PATH contains .stackfor/bin. Remedy any issues.
+## Make sure .profile exists, and has the correct $PATH
 ! -f $HOME/.profile && touch $HOME/.profile
 grep '$stackforBin' $HOME/.profile
-if [[ $? == 1 ]]; then
-    echo "PATH=$PATH:$stackforBin" >> .profile
-fi
+if [[ $? == 1 ]] && echo "PATH=$PATH:$stackforBin" >> .profile
 
-## Next, let's make sure that all of the basic requirements for stackfor are met. These requirements are just for the
-## main script, subscripts may have different requirements.
-CheckRequirements localepurge \
-                  software-properties-common \
-                  ca-certificates \
-                  gnupg2 \
-                  curl \
-                  apt-transport-https \
-                  build-essential \
-                  linux-headers-$(uname -r)
+## Verify all required packages are installed.
+InstallPackage localepurge
 
 ## Check to see if the first passed argument is in the list of stacker names.
 if [[ "stackforStackernames" =~ "$1" ]]; then
@@ -81,3 +95,23 @@ if [[ "stackforStackernames" =~ "$1" ]]; then
 else
     echo "Invalid command!"
 fi
+
+
+
+
+
+
+
+
+
+
+
+
+# CheckRequirements localepurge \
+#                   software-properties-common \
+#                   ca-certificates \
+#                   gnupg2 \
+#                   curl \
+#                   apt-transport-https \
+#                   build-essential \
+#                   linux-headers-$(uname -r)

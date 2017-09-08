@@ -2,9 +2,9 @@
 set -e
 
 #       PROJECT: stackfor
-#      FILENAME: python3
+#      FILENAME: python2
 #         BUILD: 170907
-#   DESCRIPTION: Builds a basic Python3 stack.
+#   DESCRIPTION: Builds a basic Python2 stack.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
 #       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
@@ -16,11 +16,11 @@ InstallPrereqs() {
     prereqs="none"
 }
 
-InstallPython3() {
-    InstallPackage python3 \
-                   python-pip
+InstallPython2() {
+    InstallPackage python
 }
 
 ## MAIN
+
 InstallPrereqs
-InstallPython3
+InstallPython2
