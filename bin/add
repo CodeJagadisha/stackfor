@@ -2,24 +2,24 @@
 
 #       PROJECT: stackfor
 #      FILENAME: add
-#         BUILD: 170907
+#         BUILD: 170908
 #   DESCRIPTION: Adds non-stack components to an environment.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
 #       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
 #     MORE INFO: http://aprettycoolprogram.com/stackfor
 
-source "$stackforBin/stackforengine"
+source "$sfBin/stackforengine"
 
 case "$1" in
     # EDITORS
     "code")
-        if [[ ! -f $stackforHistory/code.repository ]]; then
+        if [[ ! -f $sfHistory/code.repository ]]; then
             curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
             sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
             sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-            touch $stackforHistory/code.repository
-        fi | tee -a $stackforLogs/code.repository
+            touch $sfHistory/code.repository
+        fi | tee -a $sfLogs/code.repository
         InstallPackageMinimal curl apt-transport-https
         InstallPackage code
         ;;
@@ -30,10 +30,10 @@ case "$1" in
         InstallPackageMinimal vim
         ;;
     "editors")
-        eval $stackforStackers/add code
-        eval $stackforStackers/add emacs
+        eval $sfBin/add code
+        eval $sfBin/add emacs
         if [[ $2 == "--all" ]]; then
-            eval $stackforStackers/add vim
+            eval $sfBin/add vim
         fi
         ;;
     # GUI
@@ -41,13 +41,13 @@ case "$1" in
         InstallPackage xorg
         ;;    
     "xfce")
-        eval $stackforStackers/add xorg
+        eval $sfBin/add xorg
         InstallPackageMinimal xfce4
         InstallPackage tango-icon-theme xfce4-terminal
         ;;
     "gui")
-        eval $stackforStackers/add xorg
-        eval $stackforStackers/add xfce
+        eval $sfBin/add xorg
+        eval $sfBin/add xfce
         ;;
     # CLI APPLICATIONS
     "htop")
@@ -57,8 +57,8 @@ case "$1" in
         InstallPackageMinimal openssh-server
         ;;
     "cli-apps")
-        eval $stackforStackers/add htop
-        eval $stackforStackers/add openssh
+        eval $sfBin/add htop
+        eval $sfBin/add openssh
         ;;
     # GUI APPLICATIONS
     "filezilla")
@@ -71,32 +71,33 @@ case "$1" in
         InstallPackageMinimal gimp
         ;;
     "gui-apps")
-        eval $stackforStackers/add filezilla
-        eval $stackforStackers/add pidgin
-        eval $stackforStackers/add gimp
+        eval $sfBin/add filezilla
+        eval $sfBin/add pidgin
+        eval $sfBin/add gimp
         ;;
     # BROWSERS
     "firefox")
-        InstallPackageMinimal firefox
+        InstallPackageMinimal iceweasel
         ;;
     "chromium")
         InstallPackageMinimal chromium
         ;;
     "browsers")
-        eval $stackforStackers/add firefox
-        eval $stackforStackers/add chromium
+        eval $sfBin/add firefox
+        eval $sfBin/add chromium
         ;;
     # VIRTUALIZATION TOOLS
     "vbox-tools")
-        if [[ ! -f $stackforHistory/vbox-tools.install ]]; then
-            wget -P $stackfornTemp http://download.virtualbox.org/virtualbox/5.1.26/VBoxGuestAdditions_5.1.26.iso
-            sudo mount $stackforTemp/VBoxGuestAdditions_5.1.26.iso /media/cdrom
-            sudo cp /media/cdrom/VBoxLinuxAdditions.run $stackforTemp
-            sudo $stackforTemp/VBoxLinuxAdditions.run
-            sudo usermod -a -G vboxsf crispy
-            sudo umount /media/cdrom
-            touch $stackforHistory/vbox-tools.install
-        fi | tee -a $stackforLogs/vbox-tools.install
+        #InstallPackageMinimal bzip2
+        if [[ ! -f $sfHistory/vbox-tools.install ]]; then
+            wget -P $sfTemp http://download.virtualbox.org/virtualbox/5.1.26/VBoxGuestAdditions_5.1.26.iso | tee -a $sfLogs/vbox-tools.install
+            sudo mount $sfTemp/VBoxGuestAdditions_5.1.26.iso /media/cdrom | tee -a $sfLogs/vbox-tools.install
+            sudo cp /media/cdrom/VBoxLinuxAdditions.run $sfTemp | tee -a $sfLogs/vbox-tools.install
+            sudo $sfTemp/VBoxLinuxAdditions.run | tee -a $sfLogs/vbox-tools.install
+            sudo usermod -a -G vboxsf crispy | tee -a $sfLogs/vbox-tools.install
+            sudo umount /media/cdrom | tee -a $sfLogs/vbox-tools.install
+            touch $sfHistory/vbox-tools.install
+        fi
         ;;
     *) 
         echo "NOPE"

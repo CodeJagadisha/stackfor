@@ -2,7 +2,7 @@
 
 #       PROJECT: stackfor
 #      FILENAME: stackfor
-#       VERSION: 00.03.00
+#       VERSION: 00.10.00
 #         BUILD: 170908
 #   DESCRIPTION: Entry point for stackfor.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
@@ -20,14 +20,14 @@ stackforArguments="$@"
 declare -a stackforStackernames
 #declare -a installedPackages ## -- need to recode this
 
-for filename in "$stackforStackers"/*; do
-    stackforStackernames+=$(basename "$filename")
+for fileName in "$sfBin"/*; do
+    sfCommands+=$(basename "$fileName")
 done
 
 InstallPackage localepurge
 
-if [[ "$stackforStackernames" =~ "$1" ]]; then
-    eval $stackforStackers/$1 ${@:2}
+if [[ "$sfCommands" =~ "$1" ]]; then
+    eval $sfBin/$1 ${@:2}
 else
     echo "[stackfor] ERROR --> Invalid command $1"
 fi

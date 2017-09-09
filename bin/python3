@@ -1,14 +1,14 @@
 #!/bin/bash
 
 #       PROJECT: stackfor
-#      FILENAME: python2
-#         BUILD: 170907
-#   DESCRIPTION: Builds a basic Python2 stack.
+#      FILENAME: python3
+#         BUILD: 170908
+#   DESCRIPTION: Builds a basic Python3 stack.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
 #       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
 #     MORE INFO: http://aprettycoolprogram.com/stackfor
 
-source "$stackforBin/stackforengine"
+source "$sfBin/stackforengine"
 
-InstallPackageMinimal python
+InstallPackageMinimal python3 python3-pip

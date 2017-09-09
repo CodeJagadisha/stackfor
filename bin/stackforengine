@@ -2,7 +2,7 @@
 
 #       PROJECT: stackfor
 #      FILENAME: stackforengine
-#       VERSION: 00.03.00
+#       VERSION: 00.04.00
 #         BUILD: 170908
 #   DESCRIPTION: Common code for stackfor.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
@@ -13,19 +13,19 @@
 AptGet() {
     if [[ $@ =~ "update" ]]; then
         sudo apt-get update
-    fi | tee -a $stackforLogs/apt_get_update.log
+    fi | tee -a $sfLogs/apt_get_update.log
 
     if [[ $@ =~ "upgrade" ]]; then
         sudo apt-get update
         sudo apt-get upgrade
         sudo apt-get dist-upgrade
-    fi | tee -a $stackforLogs/apt_get_upgrade.log
+    fi | tee -a $sfLogs/apt_get_upgrade.log
 
     if [[  $@ =~ "clean" ]]; then
         sudo apt-get autoremove
         sudo apt-get -y autoclean
         sudo apt-get -y clean
-    fi | tee -a $stackforLogs/apt_get_clean.log
+    fi | tee -a $sfLogs/apt_get_clean.log
 }
 
 CompletionReport() {
@@ -42,15 +42,21 @@ CompletionReport() {
 }
 
 InitializeStackfor() {
-    export stackforHome=$HOME/.stackfor
-    export stackforBin=$HOME/.stackfor/bin
-    export stackforStackers=$HOME/.stackfor/bin/stackers
-    export stackforTemp=$HOME/.stackfor/temp
-    export stackforLogs=$HOME/.stackfor/logs/$(date "+%Y%m%d")
-    export stackforHistory=$HOME/.stackfor/history
+    # Text formatting.
+    export fG=$(tput setaf 2);
+	export fY=$(tput setaf 3);
+	export fM=$(tput setaf 5);
+    export tB=$(tput bold);
+    export tR=$(tput sgr0);
+    # Directories
+    ###export sfHome=$HOME/.stackfor
+    export sfBin=$HOME/.stackfor/bin
+    export sfHistory=$HOME/.stackfor/history
+    export sfLogs=$HOME/.stackfor/logs/$(date "+%Y%m%d")
+    export sfTemp=$HOME/.stackfor/temp
 
-    if [[ ! -d $stackforLogs ]]; then
-        mkdir -p $stackforLogs
+    if [[ ! -d $sfLogs ]]; then
+        mkdir -p $sfLogs
     fi
 }
 
@@ -59,10 +65,11 @@ InstallPackage() {
     for package in "$@"; do
         packageExists=$(dpkg-query -W --showformat='${Status}\n' $package | grep "install ok installed")
         if [[ "$packageExists" != "install ok installed" ]]; then
-            sudo apt-get install -y $package --no-install-recommends | tee -a $stackforLogs/$package-install.log
-            touch $stackforHistory/$package.install
+            echo "${tB}${fY}Installing $package....${tR}"
+            sudo apt-get install -y $package | tee -a $sfLogs/$package-install.log
+            touch $sfHistory/$package.install
         else
-            echo "Package $package already installed."
+            echo "${tB}${fG}Package $package already installed.${tR}"
         fi
     done
     AptGet upgrade clean
@@ -73,10 +80,11 @@ InstallPackageMinimal() {
     for package in "$@"; do
         packageExists=$(dpkg-query -W --showformat='${Status}\n' $package | grep "install ok installed")
         if [[ "$packageExists" != "install ok installed" ]]; then
-            sudo apt-get install -y $package --no-install-recommends | tee -a $stackforLogs/$package-install.log
-            touch $stackforHistory/$package.install
+            echo "${tB}${fY}Installing $package....${tR}"
+            sudo apt-get install -y $package --no-install-recommends | tee -a $sfLogs/$package-install.log
+            touch $sfHistory/$package.install
         else
-            echo "Package $package not installed!"
+            echo "${tB}${fG}Package $package already installed.${tR}"
         fi
     done
     AptGet upgrade clean

@@ -9,14 +9,25 @@
                CHANGELOG              
 ======================================
 
+v00.04.00 [170908]
+------------------
+[NFO] ALPHA RELEASE 4
+[NEW] Limited text colors were added to make the install details stand out.
+[NEW] Created a symbolic link named "sf" that points to .stackfor/bin/stackfor
+[NEW] Package installs are now called out in yellow text.
+[FIX] InstallPackage accidentally had the --no-install-recommends flag
+[FIX] Python3 was installing python-pip. Changed to python3-pip.
+[FIX] Renamed the Firefox package install to "iceweasel".
+[MOD] Moved the stacker files to .stackfor/bin
+
 v00.03.00 [170908]
 ------------------
-* ALPHA RELEASE 3
+[NFO] ALPHA RELEASE 3
 
 v00.02.00 [170907]
 ------------------
-* ALPHA RELEASE 2
+[NFO] ALPHA RELEASE 2
 
 v00.01.00 [170907]
 ------------------
-* ALPHA RELEASE 1
+[NFO] ALPHA RELEASE 1

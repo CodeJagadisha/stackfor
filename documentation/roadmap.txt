@@ -16,7 +16,8 @@
     Incorporation error detection
 * Color
     Add colors!
-
+* stackfor
+    - Fix it so you can't pass "stackfor stackengine", etc
 
 
 
@@ -41,3 +42,33 @@
 #                   apt-transport-https \
 #                   build-essential \
 #                   linux-headers-$(uname -r)
+
+
+    # Foreground colors
+    export fB=$(tput setaf 0);
+	export fR=$(tput setaf 1);
+    export fG=$(tput setaf 2);
+	export fY=$(tput setaf 3);
+    export fU=$(tput setaf 4);
+	export fM=$(tput setaf 5);
+    export fC=$(tput setaf 6);
+	export fW=$(tput setaf 7);
+    # Background colors
+    export bB=$(tput setab 0);
+	export bR=$(tput setab 1);
+    export bG=$(tput setab 2);
+	export bY=$(tput setab 3);
+    export bU=$(tput setab 4);
+	export bM=$(tput setab 5);
+    export bC=$(tput setab 6);
+	export bW=$(tput setab 7);
+    # General text formatting
+    export tH=$(tput smso);
+	export th=$(tput rmso);
+    export tU=$(tput smul);
+	export tu=$(tput rmul);
+    export tB=$(tput bold);
+	export tV=$(tput rev);
+    export tD=$(tput dim);
+	export tL=$(tput blink);
+    export tR=$(tput sgr0);
