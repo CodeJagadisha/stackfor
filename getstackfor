@@ -2,8 +2,8 @@
 
 #       PROJECT: stackfor
 #      FILENAME: getstackfor
-#       VERSION: 00.04.00
-#         BUILD: 170908
+#       VERSION: 00.05.00
+#         BUILD: 170911
 #   DESCRIPTION: Gets the latest version of stackfor.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
@@ -22,7 +22,7 @@ tar -xzvf $HOME/.stackfor/temp/stackfor$1.tar.gz -C $HOME/.stackfor
 chmod -R +x $HOME/.stackfor/bin/*
 mv getstackfor $HOME/.stackfor/bin
 rm -rf $HOME/.stackfor/temp/*
-ln -s $HOME/.stackfor/bin/stackfor $HOME/.stackfor/bin/stackfor/sf
+ln -s $HOME/.stackfor/bin/stackfor $HOME/.stackfor/bin/sf
 
 # Add .scriptfor/bin/* to the $PATH
 if [[ ! -f $HOME/.profile ]]; then

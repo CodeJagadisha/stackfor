@@ -2,7 +2,7 @@
 
 #       PROJECT: stackfor
 #      FILENAME: add
-#         BUILD: 170908
+#         BUILD: 170911
 #   DESCRIPTION: Adds non-stack components to an environment.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
@@ -14,14 +14,17 @@ source "$sfBin/stackforengine"
 case "$1" in
     # EDITORS
     "code")
-        if [[ ! -f $sfHistory/code.repository ]]; then
-            curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-            sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-            sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-            touch $sfHistory/code.repository
-        fi | tee -a $sfLogs/code.repository
-        InstallPackageMinimal curl apt-transport-https
-        InstallPackage code
+        if [[ ! -f $sfHistory/code.install ]]; then
+            InstallPackageMinimal libasound2 ca-certificates
+            if [[ "$bitLevel" == "x86_64" ]]; then
+                wget -O $sfTemp/code.deb https://go.microsoft.com/fwlink/?LinkID=760868
+            else
+                wget -O $sfTemp/code.deb https://go.microsoft.com/fwlink/?LinkID=760680
+            fi
+            sudo dpkg -i $sfTemp/code.deb
+            sudo apt-get install -y -f
+            touch $sfHistory/code.install
+        fi | tee -a $sfLogs/code.log
         ;;
     "emacs")
         InstallPackageMinimal emacs
@@ -35,6 +38,9 @@ case "$1" in
         if [[ $2 == "--all" ]]; then
             eval $sfBin/add vim
         fi
+        ;;
+    "mousepad")
+        InstallPackageMinimal mousepad
         ;;
     # GUI
     "xorg")
@@ -88,7 +94,7 @@ case "$1" in
         ;;
     # VIRTUALIZATION TOOLS
     "vbox-tools")
-        #InstallPackageMinimal bzip2
+        InstallPackageMinimal build-essential linux-headers-$(uname -r)
         if [[ ! -f $sfHistory/vbox-tools.install ]]; then
             wget -P $sfTemp http://download.virtualbox.org/virtualbox/5.1.26/VBoxGuestAdditions_5.1.26.iso | tee -a $sfLogs/vbox-tools.install
             sudo mount $sfTemp/VBoxGuestAdditions_5.1.26.iso /media/cdrom | tee -a $sfLogs/vbox-tools.install

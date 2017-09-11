@@ -2,8 +2,8 @@
 
 #       PROJECT: stackfor
 #      FILENAME: stackforengine
-#       VERSION: 00.04.00
-#         BUILD: 170908
+#       VERSION: 00.05.00
+#         BUILD: 170911
 #   DESCRIPTION: Common code for stackfor.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
@@ -39,25 +39,6 @@ CompletionReport() {
             echo "Package $package already installed."
         fi
     done
-}
-
-InitializeStackfor() {
-    # Text formatting.
-    export fG=$(tput setaf 2);
-	export fY=$(tput setaf 3);
-	export fM=$(tput setaf 5);
-    export tB=$(tput bold);
-    export tR=$(tput sgr0);
-    # Directories
-    ###export sfHome=$HOME/.stackfor
-    export sfBin=$HOME/.stackfor/bin
-    export sfHistory=$HOME/.stackfor/history
-    export sfLogs=$HOME/.stackfor/logs/$(date "+%Y%m%d")
-    export sfTemp=$HOME/.stackfor/temp
-
-    if [[ ! -d $sfLogs ]]; then
-        mkdir -p $sfLogs
-    fi
 }
 
 InstallPackage() {

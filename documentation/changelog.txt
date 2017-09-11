@@ -9,16 +9,31 @@
                CHANGELOG              
 ======================================
 
+v00.05.00 [170911]
+------------------
+[NFO] ALPHA RELEASE 5
+[NEW] Option to install mousepad.
+[NEW] Added "--reboot" flag to force a reboot after running the script.
+[NEW] Added the "bitLevel" variable to help with installing the correct software versions.
+[MOD] Visual Studio Code now installs the bit level version that matches the environment.
+[MOD] Visual Studio Code now installs libasound2 and ca-certificate packages
+[MOD] Visual Studio Code now installs via a .deb package than apt-get.
+[MOD] Changed localepurge to a minimal install.
+[MOD] Moved the initilization stuff out of stackforengine to stackfor
+[FIX] VirtualBox Guest Additions weren't installing due to missing build-essential and linux-headers packages, which
+      are now installed prior to the Guest Additions.
+[FIX] Fixed issue with creation of symbolic link for stackfor -> sf.
+
 v00.04.00 [170908]
 ------------------
 [NFO] ALPHA RELEASE 4
 [NEW] Limited text colors were added to make the install details stand out.
 [NEW] Created a symbolic link named "sf" that points to .stackfor/bin/stackfor
 [NEW] Package installs are now called out in yellow text.
+[MOD] Moved the stacker files to .stackfor/bin
 [FIX] InstallPackage accidentally had the --no-install-recommends flag
 [FIX] Python3 was installing python-pip. Changed to python3-pip.
 [FIX] Renamed the Firefox package install to "iceweasel".
-[MOD] Moved the stacker files to .stackfor/bin
 
 v00.03.00 [170908]
 ------------------

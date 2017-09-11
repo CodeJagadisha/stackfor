@@ -9,6 +9,12 @@
                ROADMAP                
 ======================================
 
+[BUG] Completion report doesn't work.
+        - Not a good way to keep track of installed packages
+        - Maybe use .install history files?
+
+
+* Check startx messages
 
 * "stackfor --cleanup"
     Loops through the history files and makes sure that each *.install file is actually installed.
@@ -18,7 +24,8 @@
     Add colors!
 * stackfor
     - Fix it so you can't pass "stackfor stackengine", etc
-
+* "reboot" flag
+    Reboots after work (i.e. "sf add gui --reboot)
 
 
 

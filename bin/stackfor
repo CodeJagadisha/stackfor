@@ -2,8 +2,8 @@
 
 #       PROJECT: stackfor
 #      FILENAME: stackfor
-#       VERSION: 00.10.00
-#         BUILD: 170908
+#       VERSION: 00.05.00
+#         BUILD: 170911
 #   DESCRIPTION: Entry point for stackfor.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
 #     COPYRIGHT: 2017 A Pretty Cool Program
@@ -13,8 +13,24 @@
 ## Common functions are in stackforengine.
 source "$HOME/.stackfor/bin/stackforengine"
 
-## Setup variables and directories
-InitializeStackfor
+# Text formatting.
+export fG=$(tput setaf 2);
+export fY=$(tput setaf 3);
+export fM=$(tput setaf 5);
+export tB=$(tput bold);
+export tR=$(tput sgr0);
+# Directories
+###export sfHome=$HOME/.stackfor
+export sfBin=$HOME/.stackfor/bin
+export sfHistory=$HOME/.stackfor/history
+export sfLogs=$HOME/.stackfor/logs/$(date "+%Y%m%d")
+export sfTemp=$HOME/.stackfor/temp
+
+export bitLevel=$(uname -m | grep "x86_64")
+
+if [[ ! -d $sfLogs ]]; then
+    mkdir -p $sfLogs
+fi
 
 stackforArguments="$@"
 declare -a stackforStackernames
@@ -24,7 +40,7 @@ for fileName in "$sfBin"/*; do
     sfCommands+=$(basename "$fileName")
 done
 
-InstallPackage localepurge
+InstallPackageMinimal localepurge
 
 if [[ "$sfCommands" =~ "$1" ]]; then
     eval $sfBin/$1 ${@:2}
@@ -33,3 +49,7 @@ else
 fi
 
 CompletionReport
+
+if [[ "$stackforArguments" =~ "--reboot" ]]; then
+    sudo reboot
+fi
