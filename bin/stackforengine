@@ -2,7 +2,7 @@
 
 #       PROJECT: stackfor
 #      FILENAME: stackforengine
-#       VERSION: 00.05.00
+#       VERSION: 00.09.99
 #         BUILD: 170911
 #   DESCRIPTION: Common code for stackfor.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
@@ -10,6 +10,7 @@
 #       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
 #     MORE INFO: http://aprettycoolprogram.com/stackfor
 
+## Update, upgrade, or clean apt-get.
 AptGet() {
     if [[ $@ =~ "update" ]]; then
         sudo apt-get update
@@ -28,6 +29,7 @@ AptGet() {
     fi | tee -a $sfLogs/apt_get_clean.log
 }
 
+## Displays a report after install. This is currently not working.
 CompletionReport() {
     clear
     printf "\n\n  ISSUE REPORT\n\n  ============\n\n  If a package is listed here, check the log file.\n\n"
@@ -41,6 +43,7 @@ CompletionReport() {
     done
 }
 
+## Installs a package via apt-get, with recommendations
 InstallPackage() {
     AptGet update
     for package in "$@"; do
@@ -56,6 +59,7 @@ InstallPackage() {
     AptGet upgrade clean
 }
 
+## Installs a package via apt-get, without recommendations
 InstallPackageMinimal() {
     AptGet update
     for package in "$@"; do

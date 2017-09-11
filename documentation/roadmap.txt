@@ -13,6 +13,17 @@
         - Not a good way to keep track of installed packages
         - Maybe use .install history files?
 
+[BUG] When localepurge is installed, two other packages (libdns-export162 and libisc-export160) are installed. These
+      need to be prerequisites.
+
+* Create the following:
+
+        sf standard
+        sf minimal
+        sf everything
+        sf minimize
+
+* Make sure error messages are working
 
 * Check startx messages
 

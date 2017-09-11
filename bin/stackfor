@@ -2,7 +2,7 @@
 
 #       PROJECT: stackfor
 #      FILENAME: stackfor
-#       VERSION: 00.05.00
+#       VERSION: 00.09.99
 #         BUILD: 170911
 #   DESCRIPTION: Entry point for stackfor.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
@@ -20,7 +20,6 @@ export fM=$(tput setaf 5);
 export tB=$(tput bold);
 export tR=$(tput sgr0);
 # Directories
-###export sfHome=$HOME/.stackfor
 export sfBin=$HOME/.stackfor/bin
 export sfHistory=$HOME/.stackfor/history
 export sfLogs=$HOME/.stackfor/logs/$(date "+%Y%m%d")

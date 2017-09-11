@@ -9,6 +9,25 @@
                CHANGELOG              
 ======================================
 
+v00.09.00 [170911]
+------------------
+[NFO] BETA-RC01
+[CHK] Code install OK
+[CHK] Emacs install
+[CHK] Vim install
+[CHK] Mousepad install OK
+[CHK] XORG install OK
+[CHK] XFCE4 install
+[CHK] htop install OK
+[CHK] openssh install OK
+[CHK] FileZilla install OK
+[CHK] Pidgin install
+[CHK] GIMP install
+[CHK] Firefox install OK
+[CHK] Chromium install OK
+[CHK] Vbox-tools install OK
+[CHK] Log and history files OK
+
 v00.05.00 [170911]
 ------------------
 [NFO] ALPHA RELEASE 5
