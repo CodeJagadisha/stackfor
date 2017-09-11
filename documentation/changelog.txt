@@ -9,6 +9,18 @@
                CHANGELOG              
 ======================================
 
+v00.10.00 [170911]
+------------------
+[NFO] BETA RELEASE 1
+[ADD] Added "InstallNpmPackage"
+[ADD] Added "InstallPip3Package"
+[ADD] Added stacker for Jupyter Notebooks (work in progress)
+
+v00.09.99 [170911]
+------------------
+[NFO] BETA-RC02
+[OTH] Code and comment cleanup
+
 v00.09.00 [170911]
 ------------------
 [NFO] BETA-RC01

@@ -16,6 +16,10 @@
 [BUG] When localepurge is installed, two other packages (libdns-export162 and libisc-export160) are installed. These
       need to be prerequisites.
 
+* More robust pip3 functionality
+
+* Remove placeholder.txt files
+
 * Create the following:
 
         sf standard

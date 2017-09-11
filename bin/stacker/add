@@ -33,10 +33,10 @@ case "$1" in
         InstallPackageMinimal vim
         ;;
     "editors")
-        eval $sfBin/add code
-        eval $sfBin/add emacs
+        eval $sfStacker/add code
+        eval $sfStacker/add emacs
         if [[ $2 == "--all" ]]; then
-            eval $sfBin/add vim
+            eval $sfStacker/add vim
         fi
         ;;
     "mousepad")
@@ -47,13 +47,13 @@ case "$1" in
         InstallPackage xorg
         ;;    
     "xfce")
-        eval $sfBin/add xorg
+        eval $sfStacker/add xorg
         InstallPackageMinimal xfce4
         InstallPackage tango-icon-theme xfce4-terminal
         ;;
     "gui")
-        eval $sfBin/add xorg
-        eval $sfBin/add xfce
+        eval $sfStacker/add xorg
+        eval $sfStacker/add xfce
         ;;
     # CLI APPLICATIONS
     "htop")
@@ -63,8 +63,8 @@ case "$1" in
         InstallPackageMinimal openssh-server
         ;;
     "cli-apps")
-        eval $sfBin/add htop
-        eval $sfBin/add openssh
+        eval $sfStacker/add htop
+        eval $sfStacker/add openssh
         ;;
     # GUI APPLICATIONS
     "filezilla")
@@ -77,9 +77,9 @@ case "$1" in
         InstallPackageMinimal gimp
         ;;
     "gui-apps")
-        eval $sfBin/add filezilla
-        eval $sfBin/add pidgin
-        eval $sfBin/add gimp
+        eval $sfStacker/add filezilla
+        eval $sfStacker/add pidgin
+        eval $sfStacker/add gimp
         ;;
     # BROWSERS
     "firefox")
@@ -89,8 +89,8 @@ case "$1" in
         InstallPackageMinimal chromium
         ;;
     "browsers")
-        eval $sfBin/add firefox
-        eval $sfBin/add chromium
+        eval $sfStacker/add firefox
+        eval $sfStacker/add chromium
         ;;
     # VIRTUALIZATION TOOLS
     "vbox-tools")

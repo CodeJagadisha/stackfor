@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#       PROJECT: stackfor
+#      FILENAME: jupyter
+#         BUILD: 170911
+#   DESCRIPTION: Builds a basic jupyter stack.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/stackfor
+
+source "$sfBin/stackforengine"
+
+eval $sfStacker/python3
+InstallPip3Package jupyter

@@ -2,7 +2,6 @@
 
 #       PROJECT: stackfor
 #      FILENAME: stackforengine
-#       VERSION: 00.09.99
 #         BUILD: 170911
 #   DESCRIPTION: Common code for stackfor.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
@@ -40,6 +39,23 @@ CompletionReport() {
         else
             echo "Package $package already installed."
         fi
+    done
+}
+
+# Install package(s)
+InstallNpmPackage() {
+    for package in "$@"; do
+        sudo npm install --global $package | tee -a $sfLogs/$package-install.log
+        touch $sfHistory/$package.install
+    done
+}
+
+# Install package(s)
+InstallPip3Package() {
+    for package in "$@"; do
+        sudo pip3 install --upgrade pip
+        sudo pip3 install $package | tee -a $sfLogs/$package-install.log
+        touch $sfHistory/$package.install
     done
 }
 

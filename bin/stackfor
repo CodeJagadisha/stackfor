@@ -2,7 +2,7 @@
 
 #       PROJECT: stackfor
 #      FILENAME: stackfor
-#       VERSION: 00.09.99
+#       VERSION: 00.10.00
 #         BUILD: 170911
 #   DESCRIPTION: Entry point for stackfor.
 #       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
@@ -21,6 +21,7 @@ export tB=$(tput bold);
 export tR=$(tput sgr0);
 # Directories
 export sfBin=$HOME/.stackfor/bin
+export sfStacker=$HOME/.stackfor/bin/stacker
 export sfHistory=$HOME/.stackfor/history
 export sfLogs=$HOME/.stackfor/logs/$(date "+%Y%m%d")
 export sfTemp=$HOME/.stackfor/temp
@@ -35,14 +36,14 @@ stackforArguments="$@"
 declare -a stackforStackernames
 #declare -a installedPackages ## -- need to recode this
 
-for fileName in "$sfBin"/*; do
+for fileName in "$sfStacker"/*; do
     sfCommands+=$(basename "$fileName")
 done
 
 InstallPackageMinimal localepurge
 
 if [[ "$sfCommands" =~ "$1" ]]; then
-    eval $sfBin/$1 ${@:2}
+    eval $sfStacker/$1 ${@:2}
 else
     echo "[stackfor] ERROR --> Invalid command $1"
 fi
