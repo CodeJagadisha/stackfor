@@ -24,7 +24,7 @@ case "$1" in
             sudo dpkg -i $sfTemp/code.deb
             sudo apt-get install -y -f
             touch $sfHistory/code.install
-        fi | tee -a $sfLogs/code.log
+        fi | tee -a $sfLogs/code-install.log
         ;;
     "emacs")
         InstallPackageMinimal emacs
@@ -67,14 +67,25 @@ case "$1" in
         eval $sfStacker/add openssh
         ;;
     # GUI APPLICATIONS
+    "gimp")
+        InstallPackageMinimal gimp
+        ;;
     "filezilla")
         InstallPackageMinimal filezilla
         ;;
     "pidgin")
         InstallPackageMinimal pidgin
         ;;
-    "gimp")
-        InstallPackageMinimal gimp
+    "soapui")
+        if [[ ! -f $sfHistory/soapui.install ]]; then
+            wget -O $sfTemp/soapui.sh https://b537910400b7ceac4df0-22e92613740a7dd1247910134033c0d1.ssl.cf5.rackcdn.com/soapui/5.3.0/SoapUI-5.3.0-linux-bin.tar.gz
+            tar -xzvf $HOME/.stackfor/temp/soapui.tar.gz -C $HOME/.stackfor/temp/
+
+            
+            chmod +x $sfTemp/soapui.sh
+            $sfTemp/soapui.sh
+            touch $sfHistory/soapui.install
+        fi | tee -a $sfLogs/soapui-install.log
         ;;
     "gui-apps")
         eval $sfStacker/add filezilla
@@ -104,6 +115,11 @@ case "$1" in
             sudo umount /media/cdrom | tee -a $sfLogs/vbox-tools.install
             touch $sfHistory/vbox-tools.install
         fi
+        ;;
+    ## MISC
+    "devmode")
+        InstallPackageMinimal curl
+        touch $sfHistory/devmode.enabled
         ;;
     *) 
         echo "NOPE"

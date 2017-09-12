@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#       PROJECT: stackfor
+#      FILENAME: java
+#         BUILD: 170912
+#   DESCRIPTION: Adds java, both the JRE and JDK for OpenJava.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/stackfor
+
+source "$sfBin/stackforengine"
+
+case "$1" in
+    "--open-jdk")
+        InstallPackageMinimal default-jdk
+        ;;
+    "--open-jre")
+        InstallPackageMinimal default-jre
+        ;;
+    *) echo "Invalid argument."
+        ;;
+esac

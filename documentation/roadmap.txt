@@ -16,6 +16,10 @@
 [BUG] When localepurge is installed, two other packages (libdns-export162 and libisc-export160) are installed. These
       need to be prerequisites.
 
+[MOD] Fix the tar command sytax for the soapui install so it uses global variables
+
+[ADD] Desktop/menu item for soapui
+
 * More robust pip3 functionality
 
 * Remove placeholder.txt files
@@ -42,9 +46,271 @@
 * "reboot" flag
     Reboots after work (i.e. "sf add gui --reboot)
 
+* Add Oracle Java to the java stacker
 
 
 
+
+
+
+
+
+
+* Double check that all packages are being installed in the most effcient
+  manner (i.e. "InstallAptGetPackage" -vs- "InstallAptGetPackageMinimal").
+
+* Allow for a "tight" install that is more agressive with cleaning the
+  system after installing packages, hopefully reducing the initial base
+  footprint.
+
+* Identify additional packages that can be safely removed.
+
+* Figure out how to execute crispy without the ".sh" extension
+  (i.e. "crispy something something" -vs- "crispy.sh something something").
+
+* Create a minimized version without comments, and short variable names.
+
+* Verify that everything is logged.
+
+* Automatically archive logfiles at the end of every month.
+
+* Create nicer MOTDs
+
+* Get the manifest system working, so every install/purge is logged, and
+  can be reproduced.
+
+* Include some instructions in the script to make it more user-friendly
+  (i.e. so the user knows the system will reboot).
+
+* Figure out how to do the Bleachbit cleaning without Bleachbit.
+
+* Allow additional IDEs to be installed (i.e. Netbeans, Eclipse).
+
+* Figure out if VSCode extensions can be installed automatically.
+
+* Allow specific versions of VBox Guest Additions to be installed.
+
+* Determine additional cleaning options (i.e. better uses for 
+  deborphan, installing debfoster, etc).
+
+* Add Google Fonts.
+
+* Look into installing the following:
+
+    - Fuse
+    - Lipton
+    - GitHub Desktop
+
+
+* Here is a list of packages from somewhere. Look into installing
+  them:
+    - file
+    - git
+		○ gnupg2
+		○ gnupg-agent
+		○ google-cloud-sdk
+		○ indent
+		○ jq
+		○ libapparmor-dev
+		○ libltdl-dev
+		○ libseccomp-dev
+		○ lsof
+		○ network-manager
+		○ pinentry-curses
+		○ rxvt-unicode-256color
+		○ s3cmd
+		○ scdaemon
+		○ silversearcher-ag
+		○ ssh
+		○ strace
+		○ tree
+		○ unzip
+		○ xclip
+		○ xcompmgr
+		○ zip
+		○ gimp
+		○ tesseract
+		○ apt-transport-https
+		○ libncurses5-dev
+		○ libncursesw5-dev
+		○ Htop
+		○ libltdl
+		○ libdb
+		○ libncurses
+		○ xarchiver
+		○ xdg-utils
+		○ Eclipse
+		○ LAMP
+		○ Bluefish
+		○ Netbeans
+		○ Build-essentials
+		○ Docker
+		○ Vagrant
+		○ ca-certificates
+
+* Review Jessie's script
+
+
+* Look into removing these (from https://wiki.debian.org/ReduceDebian#Reducing_the_size_of_the_Debian_Installation_Footprint)
+		○ /lib/xtables/libip6t_ah.so 
+		○ /lib/xtables/libip6t_dst.so 
+		○ /lib/xtables/libip6t_eui64.so        
+		○ /lib/xtables/libip6t_frag.so 
+		○ /lib/xtables/libip6t_hbh.so 
+		○ /lib/xtables/libip6t_hl.so 
+		○ /lib/xtables/libip6t_HL.so 
+		○ /lib/xtables/libip6t_icmp6.so 
+		○ /lib/xtables/libip6t_ipv6header.so 
+		○ /lib/xtables/libip6t_LOG.so 
+		○ /lib/xtables/libip6t_mh.so 
+		○ /lib/xtables/libip6t_REJECT.so 
+		○ /lib/xtables/libip6t_rt.so 
+		○ /lib/xtables/libip6t_DNAT.so 
+		○ /lib/xtables/libip6t_DNPT.so 
+		○ /lib/xtables/libip6t_MASQUERADE.so 
+		○ /lib/xtables/libip6t_NETMAP.so 
+		○ /lib/xtables/libip6t_REDIRECT.so 
+		○ /lib/xtables/libip6t_SNAT.so 
+		○ /lib/xtables/libip6t_SNPT.so 
+
+* Look into installing these frameworks:
+    - Zephyr
+    - Qt
+    - GTK+
+    - Git/Github
+
+* Look into installing these:
+    - Docker
+    - Vagrant
+    - Chef
+    - Puppet
+    - Anaconda
+
+* Look into installing these:
+    - Python venv
+    - Ruby RVM
+
+* Look into using Bitnami stacks as a "plugin"
+
+
+* This is a subset of packages that should be safe to purge. These come from list on
+  the "Reduce Debian" page, which can be found here:
+
+    https://wiki.debian.org/ReduceDebian
+
+        LAST CHECKED 6-28-17
+
+        acpi 
+        acpid 
+        aptitude 
+        at 
+        aspell 
+        aspell-en 
+        avahi-daemon 
+        base-config 
+        bash-completion 
+        bc 
+        bin86 
+        bind9-host 
+        ca-certificates 
+        console-common 
+        console-data 
+        console-tools 
+        cupsys-client
+        cupsys-bsd
+        cupsys-driver-gutenprint
+        cupsys-pdf
+        dc 
+        debian-faq 
+        debian-faq-de 
+        debian-faq-fr 
+        debian-faq-it 
+        debian-faq-zh-cn 
+        dhcp
+        dhcp3-client
+        dhcp3-common
+        dictionaries 
+        dnsutils 
+        doc-debian
+        doc-linux-text
+        eject
+        fdutils
+        file
+        finger 
+        foomatic-filters
+        gcc-3.3 
+        gettext-base 
+        groff
+        gnupg 
+        gnu-efi
+        grub
+        hplip
+        iamerican 
+        ibritish 
+        info 
+        ispell 
+        laptop-detect
+        libavahi-compat-libdnssd1
+        libc6-amd64
+        libc6-i686
+        libgpmg1 
+        manpages 
+        mtools 
+        mtr-tiny
+        mutt 
+        nano
+        netcat 
+        net-tools 
+        ncurses-term
+        openssh-client 
+        openssh-server 
+        openssl 
+        pidentd 
+        ppp
+        pppconfig
+        pppoe
+        pppoeconf
+        read-edid
+        reportbug
+        smclient
+        ssh 
+        tasksel
+        tcsh
+        traceroute 
+        usbutils 
+        vim-common
+        vim-tiny
+        wamerican 
+        w3m
+        whois 
+        zeroinstall-injector 
+
+  There may be additional packages that can be removed in the list above, or in the following lists:
+
+    https://askubuntu.com/questions/676423/safely-removing-unused-packages
+    https://raphaelhertzog.com/2011/02/07/debian-cleanup-tip-2-get-rid-of-obsolete-packages/
+
+* https://wiki.ubuntu.com/ReducingDiskFootprint
+
+* https://robots.thoughtbot.com/laptop-setup-for-an-awesome-development-environment
+
+VirtualBox versions
+-------------------
+Each version of crispy uses the latest version of VirtualBox at the time of development, so if you want to ensure that
+your crispy environment matches what was used to develop crispy:
+
+    crispy v00.30b170823 -> VirtualBox v5.1.26 (http://download.virtualbox.org/virtualbox/5.1.26/)
+
+Why doesn't crispy use a swap partition?
+----------------------------------------
+Since the standard crispy image has 8GB of RAM, the Virtual Machine can be smaller if a swap partition is not included.
+If you run into issues, build a new crispy base with a swap partition.
+
+VirtualBox UUID issues
+----------------------
+To issue a new UUID to a .vdi file, type the following command on your host:
+
+    "path\to\VBoxManage.exe internalcommands sethduuid “path\to\vdi.vdi"
 
 
 

@@ -1,0 +1,59 @@
+CREATING A BASE IMAGE
+=====================
+
+- Base memory: 3072MB (recommended), or a value that best suits your needs/host
+- Processors: 1 (recommended), or a value that best suits your needs/host
+- Video Memory: 128MB, or a value that best suits your needs/host
+- Acceleration: 3D (recommended), or none if you are not planning on using a GUI
+- HDD: 64GB Dynamic .vdi, or a value that best suits your needs/host
+
+* Hostname:     You can enter whatever you would like your hostname to be. By default, the crispy hostname is
+                "robin", but this is really personal preference. 
+* Root user:    Allow a root user. By default the password should be "crispy", but that's up to you. It is
+                important to have a root user, though, so definately create one.
+* Normal user:  Create a normal user with the username, fullname, and password of "crispy. This is required.
+* Partitioning: You can just let the installer make the partitioning choices for you. By default, crispy is pretty
+                aggressive with partitioning, and does not include a swap partition. Also, and this is important,
+                the type of partition table should be "msdos", otherwise you won't be able to compress the .vdi
+                properly. If you are using a fixed disk, you can choose whichever partition table type you like.
+* Drivers:      Choose "targeted" when asked what type of drivers to include in initrd
+* Non-free sw:  Choose "yes" when asked if you would like non-free software included
+* Services:     Select all services
+* Packages:     Unselect all packages
+* Bootloader:   When asked which device you would like to user for boot loader installation, choose the harddisk
+                (i.e. "/dev/sda (ata-VBOX_HARDDISK_XXXXXXXXXXXXXXX).
+
+
+1. Login as "root".
+
+2. The crispy user must able to install packages and modify the system, so you'll need to install the sudo package:
+
+    $ apt-get install sudo
+
+3. Add to sudoers
+
+    $ visudo
+
+    Add this to the bottom of the file: "crispy ALL=(ALL) NOPASSWD: ALL"
+
+4. Auto-login
+
+    $ nano /lib/systemd/system/getty@.service
+
+    Change "ExecStart=-/sbin/agetty --noclear %I $TERM" to "ExecStart=-/sbin/agetty --noclear -a crispy %I $TERM"
+
+5. Cleanup 
+
+    $ sudo apt-get autoremove
+    $ sudo apt-get autoclean
+    $ sudo apt-get clean
+    $ history -cw
+    $ sudo e4defrag /
+    $ cat /dev/zero > zero.file
+    $ sync
+    $ rm zero.file
+    $ sudo shutdown -h now
+
+6. Compress the .vdi:
+
+    C:\Program Files\Oracle\VirtualBox>VBoxManage.exe modifyhd --compact "<LOCATION-OF-CRISPY.VDI"                

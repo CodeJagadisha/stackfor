@@ -9,6 +9,15 @@
                CHANGELOG              
 ======================================
 
+
+v00.11.00 [170912]
+------------------
+[NFO] BETA RELEASE 2
+[NEW] Development mode (see manual for more information)
+[---] OpenJava install, both JRE and JDK
+[---] SoapUI install
+[---] Jupyter Notebooks install
+
 v00.10.00 [170911]
 ------------------
 [NFO] BETA RELEASE 1

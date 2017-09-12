@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#       PROJECT: stackfor
+#      FILENAME: devmode
+#         BUILD: 170912
+#   DESCRIPTION: CVarious development utilities and tools.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/stackfor
+
+source "$sfBin/stackforengine"
+
+if [[ -f "$sfHistory/devmode.enabled" ]]; then
+    case "$1" in
+        "pull")
+            rm -rf $HOME/.stackfor/
+            mkdir $HOME/.stackfor
+            cp -R /media/sf_GitHub/stackfor/* $HOME/.stackfor/
+            touch $sfHistory/devmode.enabled
+            ;;
+        "put")
+            rm -rf $HOME/.stackfor/temp/*
+            tar czfv $HOME/stackfor--$2.tar.gz -C $HOME/.stackfor/ .
+            curl -k sftp://aprettycoolprogram.com/~/public_html/stackfor -T $HOME/stackfor$2.tar.gz -u apretty
+            rm $HOME/stackfor$2.tar.gz
+            ;;
+        *) echo "Invalid command."
+            ;;
+    esac
+    
+    
+
+
+
+
+else
+    echo "Development mode is not enabled (\"$ sf add devemode\")"
+fi
+
+
+
+
