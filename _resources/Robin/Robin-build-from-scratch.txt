@@ -1,0 +1,29 @@
+
+ROBIN LINUX 
+
+These are the instructions to create Robin Linux from scratch, using the directions
+at Linux From Scratch (http://www.linuxfromscratch.org/)
+
+XX. Create a basic Debian install
+
+XX. Run "robin-lfs-01.sh". This will install a few extra things.
+
+XX. Run "robin-lfs-02.sh". This will check to makd sure that host requirements are met (see http://www.linuxfromscratch.org/lfs/view/stable/chapter02/hostreqs.html)
+
+    To see whether your host system has all the appropriate versions, and the ability to compile programs, run the following:
+
+
+
+
+    Also check for some library consistency: 
+
+        cat > library-check.sh << "EOF"
+        #!/bin/bash
+        for lib in lib{gmp,mpfr,mpc}.la; do
+        echo $lib: $(if find /usr/lib* -name $lib|
+                    grep -q $lib;then :;else echo not;fi) found
+        done
+        unset lib
+        EOF
+
+        bash library-check.sh

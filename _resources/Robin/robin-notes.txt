@@ -1,0 +1,18 @@
+
+
+THINGS TO INCLUDE
+-----------------
+
+Java SDK
+Visual Studio Code
+FileZilla
+irssi
+Docker
+Vagrant
+Chef
+Puppet
+XFCE
+Languages: Ada, Python, Ruby
+Jupyter notebooks
+LAMP
+Bitnami stacks
