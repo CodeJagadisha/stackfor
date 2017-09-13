@@ -1,0 +1,11 @@
+--2017-03-16 19:13:20--  http://aprettycoolprogram.com/pie/pie.tar.gz
+Resolving aprettycoolprogram.com (aprettycoolprogram.com)... 129.121.5.184
+Connecting to aprettycoolprogram.com (aprettycoolprogram.com)|129.121.5.184|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3874 (3.8K) [application/x-gzip]
+Saving to: ‘/home/dvn/pie/temp/pie.tar.gz’
+
+     0K ...                                                   100% 4.15M=0.001s
+
+2017-03-16 19:13:20 (4.15 MB/s) - ‘/home/dvn/pie/temp/pie.tar.gz’ saved [3874/3874]
+

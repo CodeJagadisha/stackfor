@@ -1,0 +1,12 @@
+build
+clean
+help
+-h
+--help
+init
+install
+set
+start
+stop
+update
+use

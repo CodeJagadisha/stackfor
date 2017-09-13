@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+#      FILENAME: crispy-curl
+#         BUILD: 170830
+#   DESCRIPTION: Manages the "curl" package for crispy.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/crispy
+
+source "$crispyDir/bin/crispyengine"
+
+function install()
+{
+    InstallPackageMinimal "curl"
+    touch $HOME/.crispy/history/curl.install
+    if [[ $1 == "clean" ]]; then
+        Clean aptget
+    fi
+}
+
+# MAIN
+FunctionNames "${0#*./}"
+if [[ "$#" > 0 ]]; then
+    if [[ "${functionList[*]}" =~ "$1" ]]; then
+        eval "$1 ${@:2}"
+    else
+        printf "\n ERROR in ${0#*./} -> Invalid action: $1.\n\n"
+    fi
+else
+   printf "\n[ERROR] in ${0#*./} -> No action passed.\n\n"
+fi

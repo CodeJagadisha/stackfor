@@ -1,0 +1,57 @@
+#!/bin/bash
+set -e
+
+#      FILENAME: crispy-build
+#         BUILD: 170830.1
+#   DESCRIPTION: Contains the build logic for crispy.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/crispy
+
+source "$crispyDir/bin/crispyengine"
+
+function minimal()
+{
+    ## This really isn't used yet. Eventually this will assist in building a stripped-down version of crispy.
+    if [[ ! -f $HOME/.crispy/history/Build.minimal ]]; then
+        PurgePackage dictionaries-common eject gettext-base gnupg iamerican ibritish ispell laptop-detect vim-common wamerican
+        Update aptget
+        crispy-python2 install
+        InstallPackageMinimal deborphan bleachbit # move to installer files
+        sudo cp -fr $HOME/.crispy/motd/motd_minimal /etc/motd
+        touch $HOME/.crispy/history/Build.minimal
+        Clean aptget
+    fi
+}
+
+function standard()
+{
+    if [[ ! -f  $HOME/.crispy/history/Build.standard ]]; then
+        Update aptget
+        crispy-localepurge install
+        crispy-buildessential install
+        crispy-linuxheaders install
+        crispy-curl install
+        crispy-apttransporthttps install
+        crispy-xorg install
+        crispy-xfce install
+        crispy-virtualbox install tools
+        crispy-vscode install
+        touch $HOME/.crispy/history/Build.standard
+        sudo cp -fr $HOME/.crispy/motd/motd_standard /etc/motd
+        Clean aptget
+    fi
+}
+
+# MAIN
+FunctionNames "${0#*./}"
+if [[ "$#" > 0 ]]; then
+    if [[ "${functionList[*]}" =~ "$1" ]]; then
+        eval "$1 ${@:2}"
+    else
+        printf "\n ERROR in ${0#*./} -> Invalid action: $1.\n\n"
+    fi
+else
+   printf "\n[ERROR] in ${0#*./} -> No action passed.\n\n"
+fi

@@ -1,0 +1,42 @@
+#!/bin/bash
+set -e
+
+#      FILENAME: crispy-python3
+#         BUILD: 170830
+#   DESCRIPTION: Manages the "python3" language packages for crispy
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/crispy
+
+source "$crispyDir/bin/crispyengine"
+
+function install()
+{
+    if [[ $1 == "jupyter"]]; then
+        if [[ ! -f $HOME/.crispy/history/python3.install ]]; then
+            install python3
+        fi
+        InstallPackage "python3-matplotlib python3-scipy"
+        sudo pip3 install --upgrade pip
+        sudo pip3 install jupyter
+        touch $HOME/.crispy/history/jupyter.install
+    else
+        InstallPackageMinimal "python3 python3-pip"
+        touch $HOME/.crispy/history/python3.install
+    fi
+    
+    Clean aptget
+}
+
+# MAIN
+FunctionNames "${0#*./}"
+if [[ "$#" > 0 ]]; then
+    if [[ "${functionList[*]}" =~ "$1" ]]; then
+        eval "$1 ${@:2}"
+    else
+        printf "\n ERROR in ${0#*./} -> Invalid action: $1.\n\n"
+    fi
+else
+   printf "\n[ERROR] in ${0#*./} -> No action passed.\n\n"
+fi

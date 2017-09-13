@@ -1,0 +1,22 @@
+
+
+===========================================================
+      DDE Help
+===========================================================
+      SYNTAX: dde <command> <technolgy>
+
+      COMMANDS: start - Start a technology
+                stop  - Stop a technology
+                help  - Display this information
+                use   - Use a specific programming environment
+
+  TECHNOLOGIES: djangostack  - Django Stack, using Python 2.7
+                jbossstack   - JBoss Stack
+                jrubystack   - JRuby Stack
+                lampstack    - LAMP Stack
+                meanstack    - MEAN Stack
+                nginxstack   - Nginx Stack
+                nodestack    - Node.js Stack
+                rubystack    - Ruby Stack
+                tomcatstack  - Tomcat Stack
+                wildflystack - WildFly Stack

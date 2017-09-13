@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#       PROJECT: crispy v00.30
+#      FILENAME: getcrispy
+#   DESCRIPTION: Retrieves the current version of crispy.
+#         BUILD: 170828
+#        BRANCH: Development
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/crispy
+
+## This script will download the current version of crispy from http://aprettycoolprogram.com. By default, the stable
+## branch will be downloaded. Passing the "--development" argument will download the development branch. This code
+## shouldn't really change, so I would recommend including it on any crispy base images that you create.
+
+## In order for crispy to work correctly, .crispy/bin needs to be in the $PATH. If that's not the case, then add
+## it, otherwise just continue.
+grep '.crispy/bin' $HOME/.profile
+if [[ $? == 1 ]]; then
+    echo "PATH=$PATH:$HOME/.crispy/bin" >> .profile
+fi
+
+## Crispy also needs the .crispy/ directory. If it doesn't exist, create it and .crispy/temp to store some temporary
+## files for the isntall.
+if [[ ! -d $HOME/.crispy ]]; then
+    mkdir -p $HOME/.crispy/temp
+fi
+
+## Get the crispy installer and extract it to .crispy/
+wget -P $HOME/.crispy/temp http://aprettycoolprogram.com/crispy/crispy$1.tar.gz
+tar -xzvf $HOME/.crispy/temp/crispy$1.tar.gz -C $HOME/.crispy
+
+## Remove the getcrispy script, copy the motd that will give users the directions to build crispy, and set the
+## execute flag on all files in .crispy/bin/. Then reboot.
+rm getcrispy
+rm -rf .crispy/temp/*
+sudo cp -fr $HOME/.crispy/motd/motd_prebuild /etc/motd
+chmod +x $HOME/.crispy/bin/*
+sudo reboot

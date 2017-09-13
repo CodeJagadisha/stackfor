@@ -1,0 +1,521 @@
+CRISPY MANUAL
+Version 00.09.170830
+Last updated August 30, 2017
+============================
+
+=======================================================================================================================
+                                                TABLE OF CONTENTS
+=======================================================================================================================
+
+01 Introduction
+    01.xx What is crispy
+    01.xx Why use crispy
+    02.xx Why not use crispy
+    01.xx Who is developing crispy
+    01.xx Development, continued...
+    01.xx Release schedule
+    01.xx Licensing information
+
+02 Getting crispy
+    02.xx Requirements
+    02.xx The crispy Development Environment (cDE)
+    02.xx The crispy Base Environment (cBE)
+    02.xx Using a pre-built image
+    02.xx Building a custom crispy base
+    02.xx Building a crispy environment
+
+05 Changelog
+
+06 Roadmap
+
+XX Troubleshooting
+
+
+
+=======================================================================================================================
+                                                01 INTRODUCTION
+=======================================================================================================================
+
+
+=======================================================================================================================
+                                               02 GETTING CRISPY
+=======================================================================================================================
+
+------------------
+02.xx Requirements
+------------------
+Crispy is designed to run in a VirtualBox Virtual Machine, and therefore requires:
+
+    * Oracle VirtualBox (https://www.virtualbox.org/wiki/Downloads)
+    * Oracle VM VirtualBox Extension Pack (https://www.virtualbox.org/wiki/Downloads)
+
+-------------------------------------------------
+02.xx Environments, something, and Bases
+-------------------------------------------------
+The crispy Environment is the 
+
+
+
+
+--------------------------------------
+02.xx Using a pre-built standard image
+--------------------------------------
+The easiest way to get crispy is to download the latest standard crispy image for VirtualBox, which you can do here:
+
+    http://aprettycoolprogram.com/crispy/current/crispy_standard_vdi.7z
+
+The standard crispy image is a 64GB .vdi built on Debian Linux 9.1 with the following specifications:
+
+    * Language:                      English (US)
+    * Root account:                  root/crispy
+    * Normal account:                crispy/crispy
+    * Timezone:                      Eastern
+    * Disk type:                     Dynamic
+    * Partition size:                64GB
+    * Swap partition:                none
+    * Partition table type:          msdos
+    * Debian archive mirror country: United States
+    * Use non-free software:         yes
+
+Once downloaded you've downloaded the .vdi, you'll need to create a new VirtualBox Virtual Machine with the
+following specifications:
+
+    * Base memory:  3072MB
+    * Processors:   1
+    * Video Memory: 128MB
+    * Acceleration: 3D
+
+Aattach the standard crispy image .vdi to the new Virtual Machine, and then start the VM! 
+
+While you are waiting for crispy to start, you may want to review which packages that are included in the
+The standard crispy image contains the following packages:
+
+    * XORG
+    * XFCE4
+    * XFCE4 Terminal
+    * Microsoft Visual Studio Code
+    * Mozilla Firefox
+    * FileZilla
+    * Nginx
+    * Pidgin
+    * Python3 (w/pip)
+    * Tango icon theme 
+    * VirtualBox Guest Additions
+
+Also, there are a few things specific to the standard crispy image that you should be aware of. If you have any
+concerns about these, you may want to build your own custom crispy base (instructions below):
+
+    * The "crispy" user has sudo rights, and will not be asked to provide a password when using sudo. This allows
+      crispy to modify the environment seemlessly, without having to constantly ask for a password. Obviously
+      this is a huge a security risk, but since crispy is not intended to be used in production environments,
+      the risk is considered low.
+
+    * The standard crispy image is set to auto-login as the crispy user.
+
+-----------------------------------
+02.xx Building a custom crispy base
+-----------------------------------
+The standard crispy image is built on a "crispy base", the foundation that the crispy environment is built upon. There
+are a number of reasons that the standard crispy image will not work for you. Some examples:
+
+    * You may need a swap partition
+    * You may want to have more than 3GB of system RAM
+    * You may want to use a fixed disk and/or a smaller size HARDDISK
+    * You may want to use more than 1 CPU
+    * You may want to build a crispy environment without some of the included components, or with other components
+    * You would like to build on a Debian-based distribution of linux that is not Debian
+    * <Insert your reason here>
+
+If the standard crispy image won't work for you, you'll need to create a custom crispy base on which to build
+the crispy environment. You can still build a standard crispy environment on this custom base, or a custom crispy
+environment. It's up to you.
+
+Most of the steps to build a crustom crispy base list recommended options. While it's not required to follow these
+recommendations, it's important to note that crispy may not work as expected if they are ignored.
+
+Before you start, you'll need:
+
+    * To install VirtualBox 5.1.26 (recommended) and it's extensions
+    * Debian version 9.1 Netinst.iso (recommended), or another Debian-based linux distribution
+    * A new VirtualBox Virtual Machine with the following specifications:
+
+        - Base memory: 3072MB (recommended), or a value that best suits your needs/host
+        - Processors: 1 (recommended), or a value that best suits your needs/host
+        - Video Memory: 128MB, or a value that best suits your needs/host
+        - Acceleration: 3D (recommended), or none if you are not planning on using a GUI
+        - HDD: 64GB Dynamic .vdi, or a value that best suits your needs/host
+
+Now you'll need to start the Virtual Machine to build your crispy base. These instructions are based on Debian 9.1,
+so your experiance may be different. When the Virtual Machine starts, choose "Advanced Options" > "Expert Install",
+then accept all of the installation defaults EXCEPT:
+
+    * Hostname:     You can enter whatever you would like your hostname to be. By default, the crispy hostname is
+                    "robin", but this is really personal preference. 
+    * Root user:    Allow a root user. By default the password should be "crispy", but that's up to you. It is
+                    important to have a root user, though, so definately create one.
+    * Normal user:  Create a normal user with the username, fullname, and password of "crispy. This is required.
+    * Partitioning: You can just let the installer make the partitioning choices for you. By default, crispy is pretty
+                    aggressive with partitioning, and does not include a swap partition. Also, and this is important,
+                    the type of partition table should be "msdos", otherwise you won't be able to compress the .vdi
+                    properly. If you are using a fixed disk, you can choose whichever partition table type you like.
+    * Drivers:      Choose "targeted" when asked what type of drivers to include in initrd
+    * Non-free sw:  Choose "yes" when asked if you would like non-free software included
+    * Services:     Select all services
+    * Packages:     Unselect all packages
+    * Bootloader:   When asked which device you would like to user for boot loader installation, choose the harddisk
+                    (i.e. "/dev/sda (ata-VBOX_HARDDISK_XXXXXXXXXXXXXXX).
+
+When the installation is complete, the system will restart automatically.
+
+Once the sytem has restarted, login as "root".
+
+The crispy user must able to install packages and modify the system, so you'll need to install the sudo package:
+
+    $ apt-get install sudo
+
+By default, the crispy user is added to the sudoers file, and the requirement to provide a password is removed.
+This is obviously a huge security risk, but at the same time it allows for changes to be made to crispy without
+continuously asking you to provide an administrator password. Since crispy isn't intended to be used in production
+environment, the tradeoff is acceptable. If you don't feel comfortable with this setting, however, just add the
+crispy user to sudoers, but don't remove the password requirement.
+
+    $ visudo
+
+    Add this to the bottom of the file: "crispy ALL=(ALL) NOPASSWD: ALL"
+
+By default, crispy is set to auto-login as the "crispy" user. If you would rather login manually, skip this step.
+
+    $ nano /lib/systemd/system/getty@.service
+
+    Change "ExecStart=-/sbin/agetty --noclear %I $TERM" to "ExecStart=-/sbin/agetty --noclear -a crispy %I $TERM"
+
+At this point you can restart the system and build crispy by following the on-screen MOTD prompts.
+
+If you would like, you can take a few optional steps to make this base image ready to deploy a new crispy environment
+quickly. These are the steps that I take to create the "official" crispy base that you find here:
+
+    http://aprettycoolprogram.com/crispy/current/crispy_base_vdi.7z
+
+We don't need to be root for these steps, so exit the root session
+
+    $ exit
+
+Then login as the crispy user and put a copy of "getcrispy" in $HOME, and make it executable.
+
+    $ wget $HOME http://aprettycoolprogram.com/crispy/getcrispy
+    $ chmod +x getcrispy.sh
+
+Put the default crispy MOTD in /etc
+
+    $ sudo rm /etc/motd
+    $ sudo wget -P /etc http://aprettycoolprogram.com/crispy/motd
+
+Then cleanup apt-get and clear the bash history
+
+    $ sudo apt-get autoremove
+    $ sudo apt-get autoclean
+    $ sudo apt-get clean
+    $ history -cw
+
+If you are using a dynamic disk, or aren't concerned with the size of a fixed disk, you can shutdown the system
+
+    $ sudo shutdown -h now
+
+If you are using a dynamic disk, and would like to reduce the size of the .vdi, I recommend defrag the HDD from within,
+linux, then wiping out the free space:
+
+    $ sudo e4defrag /
+    $ cat /dev/zero > zero.file
+    $ sync
+    $ rm zero.file
+
+Once those optional steps have been completed (or not), shutdown the Virtual Machine
+
+    $ sudo shutdown -h now
+
+After Virtual Machine has shut down, it's recommended that you compress the .vdi:
+
+    C:\Program Files\Oracle\VirtualBox>VBoxManage.exe modifyhd --compact "<LOCATION-OF-CRISPY.VDI"
+
+Now you have a nice, clean Debian Linux foundation to build crispy on. Start the Virtual Machine and build crispy by
+following the on-screen MOTD prompts.
+
+-----------------------------------------------------------------------------------------------------------------------
+                                                03 CHANGELOG
+-----------------------------------------------------------------------------------------------------------------------
+
+v00.10.1708XX
+-------------
+[MOD] Updated the VirtualBox Guest Additions to version 5.1.26
+
+v00.10.170830
+-------------
+[MOD] Moved the Jupyter notebook install code to crispy-python3
+[FIX] crispyengine had a few script misspellings (i.e. "crispy-build-essentials")
+[FIX] crispyengine had some comment lines that broke the compile
+[FIX] crispy-curl didn't source to crispyengine
+[FIX] crispy-curl was missing a "fi" closing tag
+
+v00.09.170830
+-------------
+[NFO] Intitial release.
+
+-----------------------------------------------------------------------------------------------------------------------
+                                                04 ROADMAP
+-----------------------------------------------------------------------------------------------------------------------
+
+* Double check that all packages are being installed in the most effcient
+  manner (i.e. "InstallAptGetPackage" -vs- "InstallAptGetPackageMinimal").
+
+* Allow for a "tight" install that is more agressive with cleaning the
+  system after installing packages, hopefully reducing the initial base
+  footprint.
+
+* Identify additional packages that can be safely removed.
+
+* Figure out how to execute crispy without the ".sh" extension
+  (i.e. "crispy something something" -vs- "crispy.sh something something").
+
+* Create a minimized version without comments, and short variable names.
+
+* Verify that everything is logged.
+
+* Automatically archive logfiles at the end of every month.
+
+* Create nicer MOTDs
+
+* Get the manifest system working, so every install/purge is logged, and
+  can be reproduced.
+
+* Include some instructions in the script to make it more user-friendly
+  (i.e. so the user knows the system will reboot).
+
+* Figure out how to do the Bleachbit cleaning without Bleachbit.
+
+* Allow additional IDEs to be installed (i.e. Netbeans, Eclipse).
+
+* Figure out if VSCode extensions can be installed automatically.
+
+* Allow specific versions of VBox Guest Additions to be installed.
+
+* Determine additional cleaning options (i.e. better uses for 
+  deborphan, installing debfoster, etc).
+
+* Add Google Fonts.
+
+* Look into installing the following:
+
+    - Fuse
+    - Lipton
+    - GitHub Desktop
+
+* Here is a list of packages from somewhere. Look into installing
+  them:
+    - file
+    - git
+		○ gnupg2
+		○ gnupg-agent
+		○ google-cloud-sdk
+		○ indent
+		○ jq
+		○ libapparmor-dev
+		○ libltdl-dev
+		○ libseccomp-dev
+		○ lsof
+		○ network-manager
+		○ pinentry-curses
+		○ rxvt-unicode-256color
+		○ s3cmd
+		○ scdaemon
+		○ silversearcher-ag
+		○ ssh
+		○ strace
+		○ tree
+		○ unzip
+		○ xclip
+		○ xcompmgr
+		○ zip
+		○ gimp
+		○ tesseract
+		○ apt-transport-https
+		○ libncurses5-dev
+		○ libncursesw5-dev
+		○ Htop
+		○ libltdl
+		○ libdb
+		○ libncurses
+		○ xarchiver
+		○ xdg-utils
+		○ Eclipse
+		○ LAMP
+		○ Bluefish
+		○ Netbeans
+		○ Build-essentials
+		○ Docker
+		○ Vagrant
+		○ ca-certificates
+
+* Review Jessie's script
+
+* Look into removing these (from https://wiki.debian.org/ReduceDebian#Reducing_the_size_of_the_Debian_Installation_Footprint)
+		○ /lib/xtables/libip6t_ah.so 
+		○ /lib/xtables/libip6t_dst.so 
+		○ /lib/xtables/libip6t_eui64.so        
+		○ /lib/xtables/libip6t_frag.so 
+		○ /lib/xtables/libip6t_hbh.so 
+		○ /lib/xtables/libip6t_hl.so 
+		○ /lib/xtables/libip6t_HL.so 
+		○ /lib/xtables/libip6t_icmp6.so 
+		○ /lib/xtables/libip6t_ipv6header.so 
+		○ /lib/xtables/libip6t_LOG.so 
+		○ /lib/xtables/libip6t_mh.so 
+		○ /lib/xtables/libip6t_REJECT.so 
+		○ /lib/xtables/libip6t_rt.so 
+		○ /lib/xtables/libip6t_DNAT.so 
+		○ /lib/xtables/libip6t_DNPT.so 
+		○ /lib/xtables/libip6t_MASQUERADE.so 
+		○ /lib/xtables/libip6t_NETMAP.so 
+		○ /lib/xtables/libip6t_REDIRECT.so 
+		○ /lib/xtables/libip6t_SNAT.so 
+		○ /lib/xtables/libip6t_SNPT.so 
+
+* Look into installing these frameworks:
+    - Zephyr
+    - Qt
+    - GTK+
+    - Git/Github
+
+* Look into installing these:
+    - Docker
+    - Vagrant
+    - Chef
+    - Puppet
+    - Anaconda
+
+* Look into installing these:
+    - Python venv
+    - Ruby RVM
+
+* Look into using Bitnami stacks as a "plugin"
+
+* This is a subset of packages that should be safe to purge. These come from list on
+  the "Reduce Debian" page, which can be found here:
+
+    https://wiki.debian.org/ReduceDebian
+
+        LAST CHECKED 6-28-17
+
+        acpi 
+        acpid 
+        aptitude 
+        at 
+        aspell 
+        aspell-en 
+        avahi-daemon 
+        base-config 
+        bash-completion 
+        bc 
+        bin86 
+        bind9-host 
+        ca-certificates 
+        console-common 
+        console-data 
+        console-tools 
+        cupsys-client
+        cupsys-bsd
+        cupsys-driver-gutenprint
+        cupsys-pdf
+        dc 
+        debian-faq 
+        debian-faq-de 
+        debian-faq-fr 
+        debian-faq-it 
+        debian-faq-zh-cn 
+        dhcp
+        dhcp3-client
+        dhcp3-common
+        dictionaries 
+        dnsutils 
+        doc-debian
+        doc-linux-text
+        eject
+        fdutils
+        file
+        finger 
+        foomatic-filters
+        gcc-3.3 
+        gettext-base 
+        groff
+        gnupg 
+        gnu-efi
+        grub
+        hplip
+        iamerican 
+        ibritish 
+        info 
+        ispell 
+        laptop-detect
+        libavahi-compat-libdnssd1
+        libc6-amd64
+        libc6-i686
+        libgpmg1 
+        manpages 
+        mtools 
+        mtr-tiny
+        mutt 
+        nano
+        netcat 
+        net-tools 
+        ncurses-term
+        openssh-client 
+        openssh-server 
+        openssl 
+        pidentd 
+        ppp
+        pppconfig
+        pppoe
+        pppoeconf
+        read-edid
+        reportbug
+        smclient
+        ssh 
+        tasksel
+        tcsh
+        traceroute 
+        usbutils 
+        vim-common
+        vim-tiny
+        wamerican 
+        w3m
+        whois 
+        zeroinstall-injector 
+
+  There may be additional packages that can be removed in the list above, or in the following lists:
+
+    https://askubuntu.com/questions/676423/safely-removing-unused-packages
+    https://raphaelhertzog.com/2011/02/07/debian-cleanup-tip-2-get-rid-of-obsolete-packages/
+
+* https://wiki.ubuntu.com/ReducingDiskFootprint
+
+* https://robots.thoughtbot.com/laptop-setup-for-an-awesome-development-environment
+-----------------------------------------------------------------------------------------------------------------------
+                                             05 TROUBLESHOOTING
+-----------------------------------------------------------------------------------------------------------------------
+
+VirtualBox versions
+-------------------
+Each version of crispy uses the latest version of VirtualBox at the time of development, so if you want to ensure that
+your crispy environment matches what was used to develop crispy:
+
+    crispy v00.30b170823 -> VirtualBox v5.1.26 (http://download.virtualbox.org/virtualbox/5.1.26/)
+
+Why doesn't crispy use a swap partition?
+----------------------------------------
+Since the standard crispy image has 8GB of RAM, the Virtual Machine can be smaller if a swap partition is not included.
+If you run into issues, build a new crispy base with a swap partition.
+
+VirtualBox UUID issues
+----------------------
+To issue a new UUID to a .vdi file, type the following command on your host:
+
+    "path\to\VBoxManage.exe internalcommands sethduuid “path\to\vdi.vdi"

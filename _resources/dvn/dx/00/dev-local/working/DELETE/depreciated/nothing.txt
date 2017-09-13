@@ -1,0 +1,60 @@
+
+#!/bin/bash
+# ddx-setup-base.sh 00.01.00-160311
+
+# Package installs
+sudo apt-get install dkms build-essential localepurge emacs curl zip unzip linux-headers-$(uname -r)
+
+# Directories
+mkdir Applications
+mkdir Languages
+mkdir Scripts
+
+# Refresh
+sudo apt-get update
+sudo apt-get dist-upgrade
+sudo apt-get autoclean
+sudo apt-get autoremove
+sudo localepurge
+sudo rm -rf /usr/share/doc/*
+sudo rm -rf /usr/share/man/*
+sudo rm -rf /usr/share/locale/*
+sudo rm /var/cache/apt/archives/*.deb
+sudo rm /home/development/ddx-setup-base.sh
+sudo reboot
+
+
+
+#!/bin/bash
+# ddx-setup.sh 00.01.00-160311
+
+# Package installs
+sudo apt-get install xfce4-terminal dkms build-essential localepurge iceweasel emacs curl zip unzip libnss3 xserver-xorg xserver-xorg-core xfonts-base xinit x11-xserver-utils xfce4 lightdm lightdm-gtk-greeter linux-headers-$(uname -r)
+
+# VirtualBox tools
+sudo mount /dev/cdrom /media/cdrom
+cd /media/cdrom/
+sudo ./VBoxLinuxAdditions.run
+sudo usermod -a -G vboxsf development
+
+# Directories
+mkdir Applications
+mkdir Languages
+mkdir Scripts
+
+# Copy data
+cp /media/sf_development/Systems/Deven/DX/Applications/* /home/development/Applications
+cp /media/sf_development/Systems/Deven/DX/Documents/* /home/development/Documents
+cp /media/sf_development/Systems/Deven/DX/Scripts/* /home/development/Scripts
+
+# Refresh
+sudo apt-get update
+sudo apt-get dist-upgrade
+sudo apt-get autoclean
+sudo apt-get autoremove
+sudo localepurge
+sudo rm -rf /usr/share/doc/*
+sudo rm -rf /usr/share/man/*
+sudo rm -rf /usr/share/locale/*
+sudo rm /var/cache/apt/archives/*.deb
+sudo reboot

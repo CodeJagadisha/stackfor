@@ -1,0 +1,31 @@
+#!/bin/bash
+set -e
+
+#       PROJECT: crispy
+# 		VERSION: 00.09
+#         BUILD: 170830.1
+#   DESCRIPTION: Entry point for crispy.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/crispy
+
+export crispyDir="$HOME/.crispy"
+export DATE=$(date +"%Y-%m-%d-%H-%M")
+export version="00.30"
+
+# MAIN
+for scriptName in $crispyDir/bin/*; do
+    scriptName=$(basename ${scriptName})
+    commands+=("${scriptName#*-}")                          
+done
+
+if [[ "$#" > 0 ]]; then
+    if [[ "${commands[*]}" =~ "$1" ]]; then
+        eval "crispy-$1 ${@:2}"
+    else
+        printf "\n ERROR in ${0#*./} -> Invalid command: $1\n\n"
+    fi 
+else
+    printf "\n ERROR in ${0#*./} -> Missing command: $1\n\n"
+fi

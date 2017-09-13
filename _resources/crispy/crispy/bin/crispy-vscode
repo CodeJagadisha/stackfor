@@ -1,0 +1,37 @@
+#!/bin/bash
+set -e
+
+#      FILENAME: crispy-vscode
+#         BUILD: 170830
+#   DESCRIPTION: Installs "Microsoft Visual Studio Code" for crispy.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/crispy
+
+source "$crispyDir/bin/crispyengine"
+
+function install()
+{
+    sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+    curl -k https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+    sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+    Update
+    InstallPackageMinimal "code"
+    touch $HOME/.crispy/history/vscode.install
+    if [[ $1 == "clean" ]]; then
+        Clean aptget
+    fi
+}
+
+# MAIN
+FunctionNames "${0#*./}"
+if [[ "$#" > 0 ]]; then
+    if [[ "${functionList[*]}" =~ "$1" ]]; then
+        eval "$1 ${@:2}"
+    else
+        printf "\n ERROR in ${0#*./} -> Invalid action: $1.\n\n"
+    fi
+else
+   printf "\n[ERROR] in ${0#*./} -> No action passed.\n\n"
+fi

@@ -1,0 +1,120 @@
+#!/bin/bash
+set -e
+
+#      FILENAME: crispyengine
+#         BUILD: 170830
+#   DESCRIPTION: Contains the main logic for crispy for crispy.
+#       AUTHORS: Christopher Banwarth (development@aprettycoolprogram.com)
+#     COPYRIGHT: 2017 A Pretty Cool Program
+#       LICENSE: Apache License, Version 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
+#     MORE INFO: http://aprettycoolprogram.com/crispy
+
+Clean()
+{
+    if [ $1 == "aptget" ] || [ $1 == "all" ] ; then
+        sudo apt-get -y autoremove
+        sudo apt-get -y autoclean
+        sudo apt-get -y clean
+    fi
+
+    if [ $1 == "crispy" ] || [ $1 == "all" ]; then
+        rm -rf $HOME/.crispy/temp/*
+        history -cw
+    fi
+
+    # CURRENTLY NOT USED, will be used when minimal builds are working.
+    # if [[ $1 == "all" ]]; then
+    #     sudo deborphan | xargs sudo apt-get -y remove --purge
+    #     sudo deborphan --guess-data | xargs sudo apt-get -y remove --purge
+    #     sudo rm -rf /usr/share/man/*
+    #     sudo rm -rf /usr/share/doc/*
+    #     sudo bleachbit --clean apt.* bash.* deepscan.* filezilla.* firefox.* flash.* pidgin.* thumbnails.* x11.* system.*
+    # fi
+}
+
+Update()
+{
+    if [ $1 == "aptget" ] || [ $1 == "all" ]; then
+        sudo apt-get -y update
+    fi
+
+    if [ $1 == "crispy" ] || [ $1 == "all" ]; then
+        code="goes here"
+    fi
+
+    if [[ $1 == "all" ]]; then
+        code="goes here"
+    fi
+}
+
+Upgrade()
+{
+    if [ $1 == "aptget" ] || [ $1 == "all" ]; then
+        sudo apt-get -y update
+        sudo apt-get -y upgrade
+        sudo apt-get -y dist-upgrade
+    fi
+
+    if [[ $1 == "all" ]]; then
+        code="goes here"
+    fi
+}
+
+FunctionNames()
+{
+    ## This will parse a file, and make a list of any function names. All crispy scripts will call this function,
+    ## usually on itself. Each file is traveresed line-by-line, and if the line starts with "function", the following
+    ## steps are taken:
+    ##
+    ##  1. The string "function " is removed,  i.e. "function name()" -> "name()"
+    ##  2. The "()" is removed from the end, i.e. "name() -> "name"
+    ##  3. The remaining string, i.e. "name", is added to the list of function names
+    ##
+    ## It's important to note that in order for this to work effeciently, function names must mirror what the argument
+    ## is. For example, if your argument is "install" (i.e. "crispy install"), the function name must be "install". If
+    ## you have an argument "no-additions", the function name must be "no-additions". This is not standard casing for
+    ## bash functions, but I think it makes it easier to create functions that match arguments, since most arguments
+    ## are entered as lowercase. It also reduces the amount of logic needed.
+    ##
+    ## Also, functions in the main crispy script (this script) don't follow these rules, since they aren't called the
+    ## same way.
+    functionList=""
+    while read -r line; do
+        if [[ "$line" == function* ]]; then
+            functionName="${line#*function }"
+            functionName="${functionName:0:-2}"
+        fi
+        functionList+=("$functionName")
+    done < $1
+}
+
+InstallPackage()
+{
+    ## Install package(s) via apt-get. This will also install any recommended/suggested packages. Also create a
+    ## logfile, and drop a history file.
+    for package in "$@"; do
+        sudo apt-get -y install $package | tee $HOME/.crispy/log/InstallPackage.$package.log
+        touch $HOME/.crispy/history/InstallPackage.$package
+    done
+}
+
+InstallPackageMinimal()
+{
+    ## Install package(s) via apt-get. This will not install recommended/suggested packages. Also create a logfile,
+    ## and drop a history file.
+    for package in "$@"; do
+        sudo apt-get -y install $package --no-install-recommends | tee $HOME/.crispy/log/InstallPackageMinimal.$package.log
+        touch $HOME/.crispy/history/InstallPackageMinimal.$package
+    done
+}
+
+PurgePackage()
+{
+    ## Purge package(s) via apt-get, and drop a history file.
+    for package in "$@"; do
+        if [[ ! -f $HOME/.crispy/history/PurgePackage.$package ]]; then
+            sudo apt-get -y purge $package
+            touch $HOME/.crispy/history/PurgePackage.$package
+        fi
+    done
+}

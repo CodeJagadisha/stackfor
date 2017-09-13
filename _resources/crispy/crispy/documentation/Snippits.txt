@@ -1,0 +1,121 @@
+SNIPPITS
+Last updated July 03, 2017
+==========================
+
+A+
+    function Aplus() # [ACTIVE ] [NOT TESTED] [170623] [http://www.aplusdev.org/Download/index.html]
+    {
+        if[[ $1 == "arm"]]; then
+            echo "ARM devices require seperate install steps, not sure if they exists"
+        else
+            wget -P $HOME/Downloads/Aplus http://www.aplusdev.org/Download/xfonts-kapl_4.18.8-1_all.deb
+            wget -P $HOME/Downloads/Aplus http://www.aplusdev.org/Download/aplus-fsf-el_4.18.8-1_all.deb
+            wget -P $HOME/Downloads/Aplus http://www.aplusdev.org/Download/aplus-fsf_4.18.8-1_i386.deb
+            sudo apt-get install -f
+        fi
+    }
+
+
+Bleachbit
+    sudo bleachbit --clean adobe_reader.* amsn.* amule.* audacious.* bash.* beagle.* chromium.* d4x.* deepscan.* \
+    easytag.* elinks.* emesene.* epiphany.* evolution.* exaile.* filezilla.* firefox.* flash.* \
+    gedit.* gftp.* gimp.* gl-117.* gnome.* google_chrome.* google_earth.* google_toolbar.* \
+    gpodder.* gwenview.* hippo_opensim_viewer.* java.* kde.* konqueror.* libreoffice.* liferea.* \
+    links2.* midnightcommander.* miro.* nautilus.* nexuiz.* octave.* openofficeorg.* opera.* \
+    pidgin.* realplayer.* rhythmbox.* recoll.* screenlets.* seamonkey.* secondlife_viewer.* \
+    skype.* sqlite3.* thumbnails.* transmission.* tremulous.* vim.* vlc.* vuze.* warzone2100.* \
+    wine.* winetricks.* x11.* xchat.* xine.* yum.* apt.* system.*
+
+Dart
+    function Dart() # [ACTIVE] [NOT TESTED] [170623] [https://github.com/dart-lang/sdk/wiki/Building]
+    {
+        if [[ $1 == "arm"]]; then
+            # NOTE: This most likely doesn't work on Raspberry Pi devices.
+            git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+            export PATH="$PATH:$PWD/depot_tools"
+            mkdir $HOME/Downloads/Dart
+            cd $HOME/Downloads/Dart
+            gclient config https://github.com/dart-lang/sdk.git
+            gclient sync
+            cd dart-sdk/sdk
+            ./tools/build.py -m release -a arm create_sdk
+            echo "PATH=$PATH:/usr/lib/dart/bin" >> .profile
+        else
+            echo "Need to do this"
+        fi
+    }
+
+Lepton GIST manager
+    wget http://www.leptonica.org/source/leptonlib-1.67.tar.gz
+    tar -zxvf leptonlib-1.67.tar.gz
+    cd leptonlib-1.67
+    ./configure
+    make
+    sudo checkinstall (follow the prompts and type "y" to create documentation directory. Enter a brief description then press enter twice)
+    sudo ldconfig
+
+Lua
+    # Install LUA [https://www.lua.org/start.html]
+    curl -R -O http://www.lua.org/ftp/lua-5.3.4.tar.gz > $HOME/.crispy/temp/lua-5.3.4.tar.gz
+    tar $HOME/.crispy/temp/lua-5.3.4.tar.gz zxf lua-5.3.4.tar.gz
+    cd $HOME/.crispy/temp/lua-5.3.4.tar.gz/lua-5.3.4
+    make linux test
+
+NetBeans
+    function InstallNetbeans()
+    {
+        wget -P $HOME/.crispy/temp http://download.netbeans.org/netbeans/8.2/final/bundles/netbeans-8.2-javase-linux.sh
+        chmod +x $HOME/.crispy/temp/netbeans*
+        $HOME/.crispy/temp/netbeans-8.2-javase-linux.sh
+        Clean
+    }
+
+PressEnterToContinue
+    read -p "Press enter to continue..."
+
+Super Minimal Building
+    function CrispyMinimalBuild()
+    {
+        sudo apt-get purge $(aptitude search '~i!~M!~prequired!~pimportant!~R~prequired!~R~R~prequired!~R~pimportant!~R~R~pimportant!busybox!grub!initramfs-tools' | awk '{print $2}')
+        sudo apt-get purge aptitude
+        sudo apt-get autoremove
+        sudo apt-get clean
+        sudo apt-get -y autoremove && sudo apt-get -y autoclean && sudo apt-get -y clean
+        ## Purge some unecessary packages.
+        ## PackagePurge isn't working, so this is done manually for now.
+        # PackagePurge laptop-detect dictionaries-common ispell wamerican manpages man-db vim-common acpi acpid net-tools \
+        # traceroute | tee -a $logfile
+        sudo apt-get -y purge laptop-detect dictionaries-common ispell wamerican manpages man-db vim-common acpi acpid \
+        net-tools traceroute
+        ## Cleanup and update
+        CleanAptGet
+        SystemMaintenance "upgrade"
+        ## Install the standard packages.
+        PackageInstall localepurge bleachbit debfoster deborphan
+        ## Cleanup
+        CleanAptGet
+        SystemMaintenance "upgrade"
+        CleanSystem
+        ## Archive logfiles.
+        tar -czf $HOME/.crispy/log/crispy"$1"_"$build"_"$DATE".tar.gz $HOME/.crispy/log/*.log 
+        rm $HOME/.crispy/log/*.log
+    }
+
+
+Tesseract
+    sudo apt-get -y install tesseract-ocr automake
+
+VSCode (Raspberry Pi)
+    function VisualStudioCode() # [ACTIVE] [NOT TESTED] [170623] [https://code.headmelted.com/]
+    {
+        sudo -s
+        . <( wget -O - https://code.headmelted.com/installers/apt.sh )
+        exit
+    }
+
+VSCode extensions
+    # Install Visual Studic Code extensions.
+    wget -P $HOME/.crispy/temp https://github.com/PowerShell/vscode-powershell/releases/download/v1.3.2/PowerShell-1.3.2.vsix
+    code --install-extension $HOME/.crispy/temp/PowerShell-1.3.2.vsix
+    wget -P $HOME/.crispy/temp https://github.com/OmniSharp/omnisharp-vscode/releases/download/v1.11.0-beta4/csharp-1.11.0-beta4.vsix
+    code --install-extension $HOME/.crispy/temp/csharp-1.11.0-beta4.vsix
